@@ -26,18 +26,30 @@ for counts in monthly_counts.values():
     for company, qty in counts.items():
         total_counts[company] += qty
 
-# Converter para DataFrame para facilitar plot
+# Transformar dict em DataFrame
 total_df = pd.DataFrame.from_dict(total_counts, orient='index', columns=['Total'])
 total_df = total_df.sort_values('Total', ascending=False)
 
-# Plotando os 10 maiores
-top10 = total_df.head(10)
+# Selecionar top 3 e criar "Outros"
+top3 = total_df.head(3)
+others_sum = total_df.iloc[3:].sum().values[0]
 
-plt.figure(figsize=(12,6))
-sns.barplot(hue=top10.index, y=top10['Total'], palette='viridis')
-plt.title("Top 10 empresas aéreas com mais registros de voos atrasados")
-plt.xlabel("Código ICAO da Empresa Aérea")
-plt.ylabel("Quantidade de voos atrasados")
-plt.xticks(rotation=45)
+plot_df = top3.copy()
+plot_df.loc['Outros'] = others_sum
+
+# Plot
+plt.figure(figsize=(10,6))
+bars = plt.bar(plot_df.index, plot_df['Total'], color=sns.color_palette('viridis', 4), width=0.6)
+
+# Adicionando valores no topo das barras
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height + 5, f'{int(height)}', ha='center', va='bottom', fontsize=11)
+
+plt.title("Top 3 empresas aéreas + Outros (voos atrasados)", fontsize=14)
+plt.ylabel("Quantidade de voos atrasados", fontsize=12)
+plt.xlabel("Código ICAO da Empresa Aérea", fontsize=12)
+plt.xticks(rotation=0)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.show()
