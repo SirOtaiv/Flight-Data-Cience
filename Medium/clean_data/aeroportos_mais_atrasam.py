@@ -40,14 +40,14 @@ plot_df.loc['Outros'] = others_sum
 
 # Plot
 plt.figure(figsize=(14,8))
-bars = plt.bar(plot_df.index, plot_df['Total'], color=sns.color_palette('viridis', 4), width=0.6)
+bars = plt.bar(plot_df.index, plot_df['Total'], color=sns.color_palette('viridis', n+1), width=0.6)
 
 # Adicionando valores no topo das barras
 for bar in bars:
     height = bar.get_height()
     plt.text(bar.get_x() + bar.get_width()/2, height + 5, f'{int(height)}', ha='center', va='bottom', fontsize=11)
 
-plt.title("Top 3 Aeroportos  + Outros (voos atrasados)", fontsize=14)
+plt.title(f"Top {n} Aeroportos + Outros (voos atrasados)", fontsize=14)
 plt.ylabel("Quantidade de voos atrasados", fontsize=12)
 plt.xlabel("Código ICAO do Aeroporto", fontsize=12)
 plt.xticks(rotation=0)
