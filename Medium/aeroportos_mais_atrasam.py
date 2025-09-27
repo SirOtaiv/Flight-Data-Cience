@@ -12,7 +12,7 @@ for year in years:
     for month in months:
         var_name = f"{month}{str(year)[-2:]}"
         # Exemplo de leitura (substitua pelo seu método de obtenção dos DataFrames)
-        cleanDataFrames[var_name] = pd.read_csv(f"../Medium/data_cleaned/{year}/{month}/{var_name}.csv", sep=";")
+        cleanDataFrames[var_name] = pd.read_csv(f"./data_cleaned/{year}/{month}/{var_name}.csv", sep=";")
 
 # Contagem por mês
 monthly_counts = {}
@@ -34,7 +34,7 @@ total_df = total_df.sort_values('Total', ascending=False)
 top10 = total_df.head(10)
 
 plt.figure(figsize=(12,6))
-sns.barplot(x=top10.index, y=top10['Total'], palette='viridis')
+sns.barplot(hue=top10.index, y=top10['Total'], palette='viridis')
 plt.title("Top 10 empresas aéreas com mais registros de voos atrasados")
 plt.xlabel("Código ICAO da Empresa Aérea")
 plt.ylabel("Quantidade de voos atrasados")
